@@ -1,0 +1,68 @@
+## MCL Vertical sharding
+vtc MoveTables -workflow=soda2messages soda messages '{"main_messagingchannellist":{}}'
+vtc VDiff messages.soda2messages
+vtc SwitchReads -tablet_type=rdonly messages.soda2messages
+vtc SwitchReads -tablet_type=replica messages.soda2messages
+vtc SwitchWrites messages.soda2messages
+vtc DropSources messages.soda2messages
+
+# manually adjusting the routing rules.
+vtc GetRoutingRules > ./mcl_routingrules.json
+vtc ApplyRoutingRules -rules "$(cat ./mcl_routingrules.json)"
+
+### MCL Horizontal sharding
+## Sequences (auto_increment) 추가.
+# vtctlclient 에서는 SUPER privilege(s) 필요. Vitess mysqlctl 로 작업.
+mcl_sequences.sql
+# mcl auto_increment 를 위한 Sequences VSchema 설정.
+vtc ApplyVSchema -vschema="$(cat vschema_mcl_seq.json)" soda
+
+# mcl shard VSchema 반영.
+vtc ApplyVSchema -vschema="$(cat vschema_messages_sharded.json)" messages
+
+## Reshard
+vtc Reshard messages.cust2cust '-' '-80,80-'
+vtc VDiff messages.cust2cust
+vtc SwitchReads -tablet_type=rdonly messages.cust2cust
+vtc SwitchReads -tablet_type=replica messages.cust2cust
+vtc SwitchWrites messages.cust2cust
+
+USE `messages:-80@master`
+
+-workflow=<workflow> <source_keyspace> <target_keyspace> <table_specs>
+
+description: 'Parts is the number of equal parts to split the keyspace into. If you need shards that are not equal-sized, use custom partitioning instead.
+Note that if the number of parts is not a power of 2, the key ranges will only be roughly equal in size.
+WARNING: DO NOT change the number of parts in a partitioning after deploying.
+That''s effectively deleting the old partitioning and adding a new one, which can lead to downtime or data loss. Instead, add an additional partitioning with the desired number of parts, perform a resharding migration, and then remove the old partitioning.'
+
+Sequences (auto_increment)
+Vindexes
+VSchema
+
+
+
+/usr/local/bin/mysql -A -P 15306 --user=avaricum --host=127.0.0.1 --password=SendBird2@20
+
+SELECT COUNT(*) FROM soda.main_messagingchannellist;
+
+USE `messages:-@master`
+
+
+/usr/bin/mysqldump --user=cheiron \
+--host=test-soohyun-vitess.cluster-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com \
+--opt --skip-comments --single-transaction \
+--databases vt_temp \
+--tables main_messagingchannellist \
+ -p > main_messagingchannellist.sql
+
+/usr/bin/mysql -A --user=root \
+--host=test-soohyun-aurora-auroracluster.cluster-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com \
+-p
+
+/usr/bin/mysql -A --user=cheiron \
+--host=test-soohyun-vitess.cluster-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com \
+-p
+
+CREATE DATABASE `soda` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin */
+main_messagingchannellist

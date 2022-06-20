@@ -1,0 +1,10 @@
+{
+  "rules": [
+    {
+      "fromTable": "main_messagingchannellist",
+      "toTables": [
+        "messages.main_messagingchannellist"
+      ]
+    }
+  ]
+}

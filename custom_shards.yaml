@@ -1,0 +1,130 @@
+keyspaces:
+  - name: soda
+    turndownPolicy: Immediate
+    partitionings:
+    - equal:
+        parts: 1
+        shardTemplate:
+          databaseInitScriptSecret:
+            name: example-cluster-config
+            key: init_db.sql
+          replication:
+            enforceSemiSync: false
+            initializeMaster: true
+          tabletPools:
+          - cell: apnortheast2
+            type: externalmaster
+            externalDatastore:
+              credentialsSecret:
+                name: example-cluster-config
+                key: aurora.json
+              database: soda
+              host: test-soohyun-aurora-auroracluster.cluster-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com
+              port: 3306
+              user: root
+            replicas: 1
+            vttablet:
+              extraFlags:
+                db_charset: utf8mb4
+              resources:
+                requests:
+                  cpu: 2
+                  memory: 4Gi
+                limits:
+                  memory: 8Gi
+  - name: temp
+    turndownPolicy: Immediate
+    partitionings:
+    - equal:
+        parts: 1
+        shardTemplate:
+          databaseInitScriptSecret:
+            name: example-cluster-config
+            key: init_db.sql
+          replication:
+            enforceSemiSync: false
+            initializeMaster: true
+          tabletPools:
+          - cell: apnortheast2
+            type: externalmaster
+            externalDatastore:
+              credentialsSecret:
+                name: example-cluster-config
+                key: vt_aurora.json
+              database: vt_temp
+              host: test-soohyun-vitess.cluster-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com
+              port: 3306
+              user: cheiron
+            replicas: 1
+            vttablet:
+              extraFlags:
+                db_charset: utf8mb4
+              resources:
+                requests:
+                  cpu: 2
+                  memory: 4Gi
+                limits:
+                  memory: 8Gi
+  - name: messages
+    turndownPolicy: Immediate
+    partitionings:
+    - custom:
+          shards:
+            - keyRange:
+                start: 80
+              databaseInitScriptSecret:
+                name: example-cluster-config
+                key: init_db.sql
+              replication:
+                enforceSemiSync: false
+                initializeMaster: true
+              tabletPools:
+              - cell: apnortheast2
+                type: externalmaster
+                externalDatastore:
+                  credentialsSecret:
+                    name: example-cluster-config
+                    key: vt_aurora.json
+                  database: vt_soda
+                  host: test-soohyun-vitess.cluster-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com
+                  port: 3306
+                  user: cheiron
+                replicas: 1
+                vttablet:
+                  extraFlags:
+                    db_charset: utf8mb4
+                  resources:
+                    requests:
+                      cpu: 2
+                      memory: 4Gi
+                    limits:
+                      memory: 8Gi
+            - keyRange:
+                end: 80
+              databaseInitScriptSecret:
+                name: example-cluster-config
+                key: init_db.sql
+              replication:
+                enforceSemiSync: false
+                initializeMaster: true
+              tabletPools:
+              - cell: apnortheast2
+                type: externalmaster
+                externalDatastore:
+                  credentialsSecret:
+                    name: example-cluster-config
+                    key: vt_aurora.json
+                  database: vt_soda
+                  host: test-soohyun-vitess-02-cluster.cluster-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com
+                  port: 3306
+                  user: cheiron
+                replicas: 1
+                vttablet:
+                  extraFlags:
+                    db_charset: utf8mb4
+                  resources:
+                    requests:
+                      cpu: 2
+                      memory: 4Gi
+                    limits:
+                      memory: 8Gi

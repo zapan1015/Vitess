@@ -1,0 +1,8 @@
+{
+  "sharded": false,
+  "tables": {
+    "mcl_seq": {
+      "type": "sequence"
+    }
+  }
+}
