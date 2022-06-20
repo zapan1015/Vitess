@@ -1,0 +1,57 @@
+{
+    "DBClusterParameterGroupName": "vt-cluster-param",
+    "Parameters": [
+        {
+            "ParameterName": "binlog_format",
+            "ParameterValue": "ROW",
+            "Source": "system",
+            "ApplyType": "static",
+            "DataType": "string",
+            "AllowedValues": "ROW,STATEMENT,MIXED,OFF",
+            "IsModifiable": true,
+            "ApplyMethod": "pending-reboot",
+            "SupportedEngineModes": [
+                "provisioned"
+            ]
+        },
+        {
+            "ParameterName": "binlog_row_image",
+            "ParameterValue": "full",
+            "Source": "engine-default",
+            "ApplyType": "dynamic",
+            "DataType": "string",
+            "AllowedValues": "full,minimal,noblob",
+            "IsModifiable": true,
+            "ApplyMethod": "pending-reboot",
+            "SupportedEngineModes": [
+                "provisioned"
+            ]
+        },
+        {
+            "ParameterName": "enforce_gtid_consistency",
+            "ParameterValue": "ON",
+            "Source": "engine-default",
+            "ApplyType": "static",
+            "DataType": "string",
+            "AllowedValues": "OFF,WARN,ON",
+            "IsModifiable": true,
+            "ApplyMethod": "pending-reboot",
+            "SupportedEngineModes": [
+                "provisioned"
+            ]
+        },
+        {
+            "ParameterName": "gtid-mode",
+            "ParameterValue": "ON",
+            "Source": "system",
+            "ApplyType": "static",
+            "DataType": "string",
+            "AllowedValues": "OFF,OFF_PERMISSIVE,ON_PERMISSIVE,ON",
+            "IsModifiable": true,
+            "ApplyMethod": "pending-reboot",
+            "SupportedEngineModes": [
+                "provisioned"
+            ]
+        }
+    ]
+}

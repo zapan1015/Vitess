@@ -1,0 +1,45 @@
+{
+    "AvailabilityZones": [
+        "ap-northeast-2a",
+        "ap-northeast-2b"
+    ],
+    "BackupRetentionPeriod": 1,
+    "DatabaseName": "vt_soda",
+    "DBClusterIdentifier": "vt-shard01",
+    "DBClusterParameterGroupName": "vt-cluster-param",
+    "VpcSecurityGroupIds": [
+        "sg-08ae73190fb5f8a09",
+        "sg-00a1eb408a703b409"
+    ],
+    "DBSubnetGroupName": "testsoohyun-aurora-dbsubnetgroup-1ccxwlheqmscs",
+    "Engine": "aurora-mysql",
+    "EngineVersion": "5.7.12",
+    "Port": 3306,
+    "MasterUsername": "cheiron",
+    "MasterUserPassword": "Neuromorphic",
+    "PreferredBackupWindow": "15:50-16:20",
+    "PreferredMaintenanceWindow": "sat:19:00-sat:19:30",
+    "Tags": [
+        {
+            "Key": "region_owner",
+            "Value": "soohyun"
+        },
+        {
+            "Key": "sendbird_region",
+            "Value": "test-soohyun"
+        },
+        {
+            "Key": "test-soohyun",
+            "Value": "true"
+        }
+    ],
+    "StorageEncrypted": true,
+    "KmsKeyId": "arn:aws:kms:ap-northeast-2:-:key/848b1f46-6db6-48d6-8e49-717be7d19698",
+    "EnableCloudwatchLogsExports": [
+        "general"
+    ],
+    "EngineMode": "provisioned",
+    "DeletionProtection": false,
+    "EnableHttpEndpoint": false,
+    "CopyTagsToSnapshot": true
+}

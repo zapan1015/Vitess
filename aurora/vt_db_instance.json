@@ -1,0 +1,91 @@
+{
+    "DBInstances": [
+        {
+            "DBInstanceIdentifier": "vt-shard01-instance-1",
+            "DBInstanceClass": "db.t3.small",
+            "Engine": "aurora-mysql",
+            "DBInstanceStatus": "available",
+            "MasterUsername": "cheiron",
+            "DBName": "vt_soda",
+            "Endpoint": {
+                "Address": "vt-shard01-instance-1.clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com",
+                "Port": 3306,
+                "HostedZoneId": "ZLA2NUCOLGUUR"
+            },
+            "AllocatedStorage": 1,
+            "InstanceCreateTime": "2020-09-17T01:45:14.061Z",
+            "PreferredBackupWindow": "18:16-18:46",
+            "BackupRetentionPeriod": 1,
+            "DBSecurityGroups": [],
+            "VpcSecurityGroups": [
+                {
+                    "VpcSecurityGroupId": "sg-0c30a8bcfc9e81fef",
+                    "Status": "active"
+                },
+                {
+                    "VpcSecurityGroupId": "sg-00a1eb408a703b409",
+                    "Status": "active"
+                }
+            ],
+            "DBParameterGroups": [
+                {
+                    "DBParameterGroupName": "vt-db-param",
+                    "ParameterApplyStatus": "in-sync"
+                }
+            ],
+            "AvailabilityZone": "ap-northeast-2b",
+            "DBSubnetGroup": {
+                "DBSubnetGroupName": "testsoohyun-aurora-dbsubnetgroup-1ccxwlheqmscs",
+                "DBSubnetGroupDescription": "DB Subnet group for test-soohyun region",
+                "VpcId": "vpc-0c5dd2be2a4834309",
+                "SubnetGroupStatus": "Complete",
+                "Subnets": [
+                    {
+                        "SubnetIdentifier": "subnet-03381820b76891087",
+                        "SubnetAvailabilityZone": {
+                            "Name": "ap-northeast-2a"
+                        },
+                        "SubnetStatus": "Active"
+                    },
+                    {
+                        "SubnetIdentifier": "subnet-0095be89c2b3b424f",
+                        "SubnetAvailabilityZone": {
+                            "Name": "ap-northeast-2b"
+                        },
+                        "SubnetStatus": "Active"
+                    }
+                ]
+            },
+            "PreferredMaintenanceWindow": "fri:17:00-fri:17:30",
+            "PendingModifiedValues": {},
+            "MultiAZ": false,
+            "EngineVersion": "5.7.mysql_aurora.2.07.2",
+            "AutoMinorVersionUpgrade": false,
+            "ReadReplicaDBInstanceIdentifiers": [],
+            "LicenseModel": "general-public-license",
+            "OptionGroupMemberships": [
+                {
+                    "OptionGroupName": "default:aurora-mysql-5-7",
+                    "Status": "in-sync"
+                }
+            ],
+            "PubliclyAccessible": false,
+            "StorageType": "aurora",
+            "DbInstancePort": 0,
+            "DBClusterIdentifier": "vt-shard01",
+            "StorageEncrypted": true,
+            "KmsKeyId": "arn:aws:kms:ap-northeast-2:-:key/848b1f46-6db6-48d6-8e49-717be7d19698",
+            "DbiResourceId": "db-KOHGN2UN7Q4K2J24F2OO6OPU54",
+            "CACertificateIdentifier": "rds-ca-2019",
+            "DomainMemberships": [],
+            "CopyTagsToSnapshot": false,
+            "MonitoringInterval": 0,
+            "PromotionTier": 1,
+            "DBInstanceArn": "arn:aws:rds:ap-northeast-2:-:db:vt-shard01-instance-1",
+            "IAMDatabaseAuthenticationEnabled": false,
+            "PerformanceInsightsEnabled": false,
+            "DeletionProtection": false,
+            "AssociatedRoles": []
+        }
+    ]
+}

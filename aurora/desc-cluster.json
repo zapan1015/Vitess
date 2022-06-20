@@ -1,0 +1,65 @@
+{
+    "DBClusters": [
+        {
+            "AllocatedStorage": 1,
+            "AvailabilityZones": [
+                "ap-northeast-2b",
+                "ap-northeast-2a",
+                "ap-northeast-2d"
+            ],
+            "BackupRetentionPeriod": 1,
+            "DatabaseName": "vt_soda",
+            "DBClusterIdentifier": "test-soohyun-vitess",
+            "DBClusterParameterGroup": "vt-soohyun-gtid-on",
+            "DBSubnetGroup": "testsoohyun-aurora-dbsubnetgroup-1ccxwlheqmscs",
+            "Status": "available",
+            "EarliestRestorableTime": "2020-09-15T15:55:29.617Z",
+            "Endpoint": "test-soohyun-vitess.cluster-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com",
+            "ReaderEndpoint": "test-soohyun-vitess.cluster-ro-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com",
+            "MultiAZ": false,
+            "Engine": "aurora-mysql",
+            "EngineVersion": "5.7.12",
+            "LatestRestorableTime": "2020-09-17T00:21:12Z",
+            "Port": 3306,
+            "MasterUsername": "cheiron",
+            "PreferredBackupWindow": "15:50-16:20",
+            "PreferredMaintenanceWindow": "sat:19:00-sat:19:30",
+            "ReadReplicaIdentifiers": [],
+            "DBClusterMembers": [
+                {
+                    "DBInstanceIdentifier": "test-soohyun-vitess-instance-1",
+                    "IsClusterWriter": true,
+                    "DBClusterParameterGroupStatus": "pending-reboot",
+                    "PromotionTier": 2
+                }
+            ],
+            "VpcSecurityGroups": [
+                {
+                    "VpcSecurityGroupId": "sg-08ae73190fb5f8a09",
+                    "Status": "active"
+                },
+                {
+                    "VpcSecurityGroupId": "sg-00a1eb408a703b409",
+                    "Status": "active"
+                }
+            ],
+            "HostedZoneId": "ZLA2NUCOLGUUR",
+            "StorageEncrypted": true,
+            "KmsKeyId": "arn:aws:kms:ap-northeast-2:-:key/848b1f46-6db6-48d6-8e49-717be7d19698",
+            "DbClusterResourceId": "cluster-JQ46G6G3VHIILLL4PVUZEBAOWY",
+            "DBClusterArn": "arn:aws:rds:ap-northeast-2:-:cluster:test-soohyun-vitess",
+            "AssociatedRoles": [],
+            "IAMDatabaseAuthenticationEnabled": false,
+            "ClusterCreateTime": "2020-08-10T06:19:36.993Z",
+            "EnabledCloudwatchLogsExports": [
+                "general"
+            ],
+            "EngineMode": "provisioned",
+            "DeletionProtection": false,
+            "HttpEndpointEnabled": false,
+            "ActivityStreamStatus": "stopped",
+            "CopyTagsToSnapshot": true,
+            "CrossAccountClone": false
+        }
+    ]
+}
