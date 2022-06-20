@@ -1,0 +1,133 @@
+# The following example is minimalist. The security policies
+# and resource specifications are not meant to be used in production.
+# Please refer to the operator documentation for recommendations on
+# production settings.
+apiVersion: planetscale.com/v2
+kind: VitessCluster
+metadata:
+  name: soohyun
+spec:
+  images:
+    vtctld: vitess/lite:v6.0.20-20200818
+    vtgate: vitess/lite:v6.0.20-20200818
+    vttablet: vitess/lite:v6.0.20-20200818
+    vtbackup: vitess/lite:v6.0.20-20200818
+    mysqld:
+      mysql56Compatible: vitess/lite:v6.0.20-20200818
+    mysqldExporter: prom/mysqld-exporter:v0.11.0
+  cells:
+  - name: apnortheast2
+    gateway:
+      authentication:
+        static:
+          secret:
+            name: example-cluster-config
+            key: users.json
+      replicas: 3
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          memory: 256Mi
+  vitessDashboard:
+    cells:
+    - apnortheast2
+    extraFlags:
+      security_policy: read-only
+      proxy_tablets: "true"
+    replicas: 1
+    resources:
+      limits:
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+  keyspaces:
+    - name: soda
+      turndownPolicy: Immediate
+      partitionings:
+        - custom:
+            shards:
+              - keyRange:
+                  start: ""
+                databaseInitScriptSecret:
+                  name: example-cluster-config
+                  key: init_db.sql
+                replication:
+                  enforceSemiSync: false
+                  initializeMaster: true
+                tabletPools:
+                  - cell: apnortheast2
+                    type: externalmaster
+                    externalDatastore:
+                      credentialsSecret:
+                        name: example-cluster-config
+                        key: aurora.json
+                      database: soda
+                      host: test-soohyun-aurora-auroracluster.cluster-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com
+                      port: 3306
+                      user: root
+                    replicas: 1
+                    vttablet:
+                      extraFlags:
+                        db_charset: utf8mb4
+                      resources:
+                        requests:
+                          cpu: 100m
+                          memory: 256Mi
+    - name: messages
+      turndownPolicy: Immediate
+      partitionings:
+      - custom:
+          shards:
+            - keyRange:
+                start: ""
+              databaseInitScriptSecret:
+                name: example-cluster-config
+                key: init_db.sql
+              replication:
+                enforceSemiSync: true
+                initializeMaster: true
+              tabletPools:
+              - cell: apnortheast2
+                type: externalmaster
+                externalDatastore:
+                  credentialsSecret:
+                    name: example-cluster-config
+                    key: vt_aurora.json
+                  database: vt_soda
+                  host: vt-shard01.cluster-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com
+                  port: 3306
+                  user: cheiron
+                replicas: 1
+                vttablet:
+                  extraFlags:
+                    db_charset: "utf8mb4"
+                  resources:
+                    requests:
+                      cpu: 100m
+                      memory: 256Mi
+              - cell: apnortheast2
+                type: externalrdonly
+                externalDatastore:
+                  credentialsSecret:
+                    name: example-cluster-config
+                    key: vt_aurora.json
+                  database: vt_soda
+                  host: vt-shard01.cluster-ro-clbz1hjlobpr.ap-northeast-2.rds.amazonaws.com
+                  port: 3306
+                  user: cheiron
+                replicas: 1
+                vttablet:
+                  extraFlags:
+                    enable_replication_reporter: "false"
+                    disable_active_reparents: "true"
+                    db_charset: "utf8mb4"
+                  resources:
+                    requests:
+                      cpu: 100m
+                      memory: 256Mi
+  updateStrategy:
+    type: Immediate
